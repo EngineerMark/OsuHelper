@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuHelper", "OsuHelper.csproj", "{420B9B64-9EFD-4BDE-80BF-1A7E3496A864}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OsuHelper", "OsuHelper.csproj", "{420B9B64-9EFD-4BDE-80BF-1A7E3496A864}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OsuHelper.Tests", "..\OsuHelper.Tests\OsuHelper.Tests.csproj", "{AFEED3BA-5714-427D-B36D-589CAF9C321D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{420B9B64-9EFD-4BDE-80BF-1A7E3496A864}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{420B9B64-9EFD-4BDE-80BF-1A7E3496A864}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{420B9B64-9EFD-4BDE-80BF-1A7E3496A864}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFEED3BA-5714-427D-B36D-589CAF9C321D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFEED3BA-5714-427D-B36D-589CAF9C321D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFEED3BA-5714-427D-B36D-589CAF9C321D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFEED3BA-5714-427D-B36D-589CAF9C321D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

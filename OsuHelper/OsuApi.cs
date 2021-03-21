@@ -16,8 +16,11 @@ namespace OsuApiHelper
         /// </summary>
         /// <returns>True if api key is valid, otherwise false</returns>
         public static bool IsKeyValid(){
-            //Not yet implemented
-            return true;
+            string testURL = "https://osu.ppy.sh/api/get_beatmaps?k="+OsuApiKey.Key+"&b=-1";
+            if (!APIHelper<bool>.IsUrlValid(testURL))
+                return false;
+            string res = APIHelper<string>.GetDataFromWeb(testURL);
+            return (res.Length < 10);
         }
 
         /// <summary>
@@ -26,8 +29,10 @@ namespace OsuApiHelper
         /// <param name="username"></param>
         /// <returns>True if valid account, otherwise false</returns>
         public static bool IsUserValid(string username){
-            //Not yet implemented
-            return true;
+            List<OsuUser> users =
+                APIHelper<List<OsuUser>>.GetData(
+                    apiUrl + "get_user?k=" + OsuApiKey.Key + "&u=" + username);
+            return users != null && users.Count > 0;
         }
 
         ///Finds and returns an OsuUser object containing all information

@@ -26,7 +26,7 @@ namespace OsuApiHelper
                 return false;
             }
         }
-        
+
         public static T GetData(string url, bool useCache = false)
         {
             string data = string.Empty;
@@ -36,8 +36,8 @@ namespace OsuApiHelper
             if (string.IsNullOrEmpty(data))
             {
                 data = GetDataFromWeb(url);
-                if(useCache)
-                    WriteCache(url, data);                
+                if (useCache)
+                    WriteCache(url, data);
             }
             return JsonConvert.DeserializeObject<T>(data);
         }
@@ -54,7 +54,7 @@ namespace OsuApiHelper
             string encodedUrl = url.Base64Encode();
             string path = GetDirectory();
             string fullPath = Path.Combine(path, encodedUrl, ".cache");
-            if(File.Exists(fullPath))
+            if (File.Exists(fullPath))
                 File.Delete(fullPath);
             (new FileInfo(fullPath)).Directory.Create();
             using (StreamWriter file = new StreamWriter(fullPath, false))
@@ -84,7 +84,7 @@ namespace OsuApiHelper
 
         private static string GetDirectory()
         {
-            string path = Path.Combine(Environment.CurrentDirectory,"cache");
+            string path = Path.Combine(Environment.CurrentDirectory, "cache");
             return path;
         }
     }
