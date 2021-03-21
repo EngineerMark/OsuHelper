@@ -7,6 +7,7 @@ using System.Net.Cache;
 
 namespace OsuApiHelper
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public static class APIHelper<T>
     {
         private static List<Tuple<string, int, string>> cachedApiData = new List<Tuple<string, int, string>>();
@@ -87,4 +88,5 @@ namespace OsuApiHelper
             return path;
         }
     }
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 }

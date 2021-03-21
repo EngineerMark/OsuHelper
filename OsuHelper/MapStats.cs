@@ -4,6 +4,9 @@ using OsuApiHelper.Math;
 
 namespace OsuApiHelper
 {
+    /// <summary>
+    /// Beatmap difficulty data
+    /// </summary>
     public class MapStats
     {
         private const float OD_0_MS = 79.5f;
@@ -16,13 +19,44 @@ namespace OsuApiHelper
         private const float AR_MS_STEP2 = 150f;
 
 
+        /// <summary>
+        /// Converted Beatmap Approach Rate
+        /// </summary>
+        public float AR;
 
-        public float AR, OD, CS, HP;
+        /// <summary>
+        /// Converted Beatmap Overall Difficulty
+        /// </summary>
+        public float OD;
+
+        /// <summary>
+        /// Converted Beatmap Circle Size
+        /// </summary>
+        public float CS;
+
+        /// <summary>
+        /// Converted Beatmap Health
+        /// </summary>
+        public float HP;
+
+        /// <summary>
+        /// Converted Beatmap Speed
+        /// </summary>
         public float Speed;
 
+        /// <summary>
+        /// Beatmap that owns this MapStats instance
+        /// </summary>
         public OsuBeatmap Beatmap;
+
+        /// <summary>
+        /// Beatmap used mods in case of scores
+        /// </summary>
         public OsuMods Mods;
-        
+
+        /// <summary>
+        /// Create and convert beatmap map stats
+        /// </summary>
         public MapStats(OsuBeatmap beatmap, OsuMods mods)
         {
             Beatmap = beatmap;
@@ -31,7 +65,7 @@ namespace OsuApiHelper
             Calculate();
         }
 
-        public void Calculate()
+        private void Calculate()
         {
             AR = Beatmap.ApproachRate??0;
             OD = Beatmap.OverallDifficulty??0;

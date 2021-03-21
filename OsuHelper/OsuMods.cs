@@ -2,9 +2,13 @@
 
 namespace OsuApiHelper
 {
+    /// <summary>
+    /// Mods used in a score
+    /// </summary>
     [Flags]
     public enum OsuMods
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         None = 0,
         NoFail = 1,
         Easy = 2,
@@ -43,11 +47,16 @@ namespace OsuApiHelper
                          SpunOut | KeyMod,
         ScoreIncreaseMods = Hidden | HardRock | DoubleTime | Flashlight | FadeIn,
         APIMods = HardRock | DoubleTime | Easy | HalfTime
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 
+    /// <summary>
+    /// Short versions of the mods
+    /// </summary>
     [Flags]
     public enum OsuModsShort
     {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         None = 0,
         NF = 1,
         EZ = 2,
@@ -82,5 +91,6 @@ namespace OsuApiHelper
         KeyMod = K1 | K2 | K3 | K4 | K5 | K6 | K7 | K8 | K9 | KC,
         FreeModAllowed = NF | EZ | HD | HR | SD | FL | FI | RX | AP | SO | KeyMod,
         ScoreIncreaseMods = HD | HR | DT | FL | FI
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }

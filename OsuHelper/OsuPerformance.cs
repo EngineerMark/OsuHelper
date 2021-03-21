@@ -4,20 +4,48 @@ using OsuApiHelper.Math;
 namespace OsuApiHelper
 {
     /// <summary>
-    /// Base class for PP handling
+    /// Base class for Performance Points handling
     /// </summary>
     public class OsuPerformance
     {
+        /// <summary>
+        /// Connected beatmap
+        /// </summary>
         public OsuBeatmap Beatmap;
+
+        /// <summary>
+        /// Connected score
+        /// </summary>
         public OsuPlay Play;
 
+        /// <summary>
+        /// PP value based on current or given score
+        /// </summary>
         public float CurrentValue { get; set; }
+
+        /// <summary>
+        /// PP value if full combo with current accuracy
+        /// </summary>
         public float CurrentValueIfFC { get; set; }
 
+        /// <summary>
+        /// Aim influence on performance
+        /// </summary>
         public float AimPP = 0;
+
+        /// <summary>
+        /// Speed influence on performance
+        /// </summary>
         public float SpeedPP = 0;
+
+        /// <summary>
+        /// Accuracy influence on performance
+        /// </summary>
         public float AccPP = 0;
 
+        /// <summary>
+        /// Create Performance object for a score
+        /// </summary>
         public OsuPerformance(OsuPlay play, OsuBeatmap beatmap)
         {
             Beatmap = beatmap;
@@ -26,6 +54,9 @@ namespace OsuApiHelper
             CalculateCurrentPerformance();
         }
 
+        /// <summary>
+        /// Calculate the performance for a score
+        /// </summary>
         public void CalculateCurrentPerformance()
         {
             if (Play.PP == -1)
@@ -37,6 +68,9 @@ namespace OsuApiHelper
                 CalculatePerformance(Beatmap.MaxCombo??0, Play.C50, Play.C100, Play.C300 + Play.CMiss, 0, Play.CKatu, Play.CGeki);
         }
 
+        /// <summary>
+        /// Calculate performance with manual input
+        /// </summary>
         public float CalculatePerformance(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
         {
             if ((Play.Mods & OsuMods.ScoreV2) != 0)
@@ -50,7 +84,6 @@ namespace OsuApiHelper
                     return CalculateManiaPP(combo, c50, c100, c300, cMiss, cKatu, cGeki);
                 case OsuMode.Taiko:
                     return CalculateTaikoPP(combo, c50, c100, c300, cMiss, cKatu, cGeki);
-                    return 0f;
                 case OsuMode.Standard:
                     return CalculateStandardPP(combo, c50, c100, c300, cMiss, cKatu, cGeki);
             }
@@ -58,7 +91,7 @@ namespace OsuApiHelper
             return 0f;
         }
 
-        public float CalculateTaikoPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
+        private float CalculateTaikoPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
         {
             if ((Play.Mods & OsuMods.Relax) != 0 || (Play.Mods & OsuMods.Relax2) != 0 ||
                 (Play.Mods & OsuMods.Autoplay) != 0)
@@ -120,7 +153,7 @@ namespace OsuApiHelper
                 ) * total;
         }
 
-        public float CalculateManiaPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
+        private float CalculateManiaPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
         {
             if ((Play.Mods & OsuMods.Relax) != 0 || (Play.Mods & OsuMods.Relax2) != 0 ||
                 (Play.Mods & OsuMods.Autoplay) != 0)
@@ -186,7 +219,7 @@ namespace OsuApiHelper
                 );
         }
 
-        public float CalculateCatchPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
+        private float CalculateCatchPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
         {
             if ((Play.Mods & OsuMods.Relax) != 0 || (Play.Mods & OsuMods.Relax2) != 0 ||
                 (Play.Mods & OsuMods.Autoplay) != 0)
@@ -240,7 +273,7 @@ namespace OsuApiHelper
             return value;
         }
 
-        public float CalculateStandardPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
+        private float CalculateStandardPP(float combo, float c50, float c100, float c300, float cMiss, float cKatu = 0, float cGeki = 0)
         {
             if ((Play.Mods & OsuMods.Relax) != 0 || (Play.Mods & OsuMods.Relax2) != 0 ||
                 (Play.Mods & OsuMods.Autoplay) != 0)
