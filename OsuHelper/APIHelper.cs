@@ -45,7 +45,10 @@ namespace OsuApiHelper
         public static string GetDataFromWeb(string url)
         {
             WebClient client = new WebClient();
-            string s = client.DownloadString(url);
+            string s = "";
+            try{
+                s = client.DownloadString(url);
+            }catch{ }
             return s;
         }
 
