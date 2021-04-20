@@ -21,7 +21,7 @@ namespace OsuApiHelper
         /// <summary>
         /// Score ID (For API)
         /// </summary>
-        [JsonProperty("score")] public string ScoreID { get; set; }
+        [JsonProperty("score_id")] public string ScoreID { get; set; }
 
         /// <summary>
         /// Score achieved in this play

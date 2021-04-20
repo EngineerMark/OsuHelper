@@ -113,6 +113,12 @@ namespace OsuApiHelper
         public int CountRankA { get; set; }
 
         /// <summary>
+        /// Global accuracy
+        /// </summary>
+        [JsonProperty("accuracy")]
+        public float Accuracy { get; set; }
+
+        /// <summary>
         /// Total SS ranks
         /// </summary>
         public int GetCountRankSS() => CountRankSS + CountRankSSH;
