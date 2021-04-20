@@ -47,6 +47,9 @@ namespace OsuApiHelper
         {
             get
             {
+                if (Beatmap == null)
+                    return null;
+
                 if (_pp == null)
                     _pp = new OsuPerformance(this, Beatmap);
                 return _pp;
