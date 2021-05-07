@@ -41,7 +41,7 @@ namespace OsuApiHelper
             List<OsuUser> users =
                 APIHelper<List<OsuUser>>.GetData(
                     apiUrl + "get_user?k=" + OsuApiKey.Key + "&u=" + username + "&m=" + (int) mode);
-            if (users.Count > 0)
+            if (users!=null && users.Count > 0)
             {
                 //users[0].SetUserpage();
                 return users[0];
@@ -63,13 +63,16 @@ namespace OsuApiHelper
         {
             List<OsuPlay> plays = APIHelper<List<OsuPlay>>.GetData(apiUrl + "get_user_best?k=" + OsuApiKey.Key + "&u=" +
                                                                    username + "&m=" + (int) mode + "&limit=" + limit);
-            plays.ForEach(play =>
-            {
-                play.Mode = mode;
-                if (generateBeatmaps)
-                    play.Beatmap = GetBeatmap(play.MapID, play.Mods, mode);
-            });
-            return plays.Count > 0 ? plays : null;
+
+            if(plays!=null && plays.Count>0){
+                plays.ForEach(play =>
+                {
+                    play.Mode = mode;
+                    if (generateBeatmaps)
+                        play.Beatmap = GetBeatmap(play.MapID, play.Mods, mode);
+                });
+            }
+            return (plays!=null && plays.Count > 0) ? plays : null;
         }
 
         ///Returns a list of the user's most recent plays
@@ -78,13 +81,16 @@ namespace OsuApiHelper
         {
             List<OsuPlay> plays = APIHelper<List<OsuPlay>>.GetData(apiUrl + "get_user_recent?k=" + OsuApiKey.Key + "&u=" +
                                                                    username + "&m=" + (int) mode + "&limit=" + limit);
-            plays.ForEach(play =>
+            if (plays != null && plays.Count > 0)
+            {
+                plays.ForEach(play =>
             {
                 play.Mode = mode;
                 if (generateBeatmaps)
                     play.Beatmap = GetBeatmap(play.MapID, play.Mods, mode);
             });
-            return plays.Count > 0 ? plays : null;
+            }
+            return (plays!=null && plays.Count > 0) ? plays : null;
         }
 
         ///Returns a Beatmap object containing information on the map
@@ -93,14 +99,14 @@ namespace OsuApiHelper
             string url = apiUrl + "get_beatmaps?k=" + OsuApiKey.Key + "&b=" + id + "&m=" + (int) mode + "&a=1&mods=" +
                          (int) mods.ModParser(true);
             List<OsuBeatmap> maps = APIHelper<List<OsuBeatmap>>.GetData(url, true);
-            if (maps.Count > 0)
+            if (maps!=null && maps.Count > 0)
             {
                 maps[0].Mode = mode;
                 maps[0].Mods = mods;
                 maps[0].MapStats = new MapStats(maps[0], mods);
             }
 
-            return maps.Count > 0 ? maps[0] : null;
+            return (maps!=null && maps.Count > 0) ? maps[0] : null;
         }
 
         ///Converts an OsuMods enum to an API-ready enum
