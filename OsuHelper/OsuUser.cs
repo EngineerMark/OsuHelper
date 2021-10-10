@@ -119,6 +119,25 @@ namespace OsuApiHelper
         public float Accuracy { get; set; }
 
         /// <summary>
+        /// Amount of 300 hits
+        /// </summary>
+        [JsonProperty("count300")]
+        public float Hits300 { get; set; }
+
+        /// <summary>
+        /// Amount of 100 hits
+        /// </summary>
+        [JsonProperty("count100")]
+        public float Hits100 { get; set; }
+
+        /// <summary>
+        /// Amount of 50 hits
+        /// </summary>
+        [JsonProperty("count50")]
+        public float Hits50 { get; set; }
+
+
+        /// <summary>
         /// Total SS ranks
         /// </summary>
         public int GetCountRankSS() => CountRankSS + CountRankSSH;

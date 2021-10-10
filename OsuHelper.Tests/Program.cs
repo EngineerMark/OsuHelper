@@ -20,7 +20,9 @@ namespace OsuHelper.Tests
                 if (userTest)
                 {
                     Console.WriteLine("Valid user");
-                    List<OsuApiHelper.OsuPlay> test = OsuApiHelper.OsuApi.GetUserRecent("Amayakase", OsuApiHelper.OsuMode.Standard, 5);
+                    //List<OsuApiHelper.OsuPlay> test = OsuApiHelper.OsuApi.GetUserRecent("Amayakase", OsuApiHelper.OsuMode.Standard, 5);
+                    OsuApiHelper.OsuUser test = OsuApiHelper.OsuApi.GetUser("Amayakase");
+                    string t = "";
                 }
                 else
                 {
