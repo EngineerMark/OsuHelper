@@ -44,13 +44,13 @@ namespace OsuApiHelper
         /// Raw performance points stat
         /// </summary>
         [JsonProperty("pp_raw")]
-        public float Performance { get; set; }
+        public double Performance { get; set; }
         
         /// <summary>
         /// Current level of user
         /// </summary>
         [JsonProperty("level")]
-        public float Level { get; set; }
+        public double Level { get; set; }
         
         /// <summary>
         /// Cumulative ranked score
@@ -116,25 +116,25 @@ namespace OsuApiHelper
         /// Global accuracy
         /// </summary>
         [JsonProperty("accuracy")]
-        public float Accuracy { get; set; }
+        public double Accuracy { get; set; }
 
         /// <summary>
         /// Amount of 300 hits
         /// </summary>
         [JsonProperty("count300")]
-        public float Hits300 { get; set; }
+        public double Hits300 { get; set; }
 
         /// <summary>
         /// Amount of 100 hits
         /// </summary>
         [JsonProperty("count100")]
-        public float Hits100 { get; set; }
+        public double Hits100 { get; set; }
 
         /// <summary>
         /// Amount of 50 hits
         /// </summary>
         [JsonProperty("count50")]
-        public float Hits50 { get; set; }
+        public double Hits50 { get; set; }
 
 
         /// <summary>

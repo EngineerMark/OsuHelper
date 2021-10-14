@@ -36,7 +36,7 @@ namespace OsuApiHelper
         /// <summary>
         /// If applicable, PP value of this play provided by API
         /// </summary>
-        [JsonProperty("pp")] public float PP { get; set; } = -1;
+        [JsonProperty("pp")] public double PP { get; set; } = -1;
 
         [JsonIgnore] private OsuPerformance _pp;
 
@@ -64,7 +64,7 @@ namespace OsuApiHelper
         /// <summary>
         /// Highest combo reached in this play
         /// </summary>
-        [JsonProperty("maxcombo")] public float MaxCombo { get; set; } = 0;
+        [JsonProperty("maxcombo")] public double MaxCombo { get; set; } = 0;
 
         /// <summary>
         /// Boolean value if play is a full combo
@@ -79,37 +79,37 @@ namespace OsuApiHelper
         /// <summary>
         /// Amount of 50s
         /// </summary>
-        [JsonProperty("count50")] public float C50 { get; set; }
+        [JsonProperty("count50")] public double C50 { get; set; }
 
         /// <summary>
         /// Amount of 100s
         /// </summary>
-        [JsonProperty("count100")] public float C100 { get; set; }
+        [JsonProperty("count100")] public double C100 { get; set; }
 
         /// <summary>
         /// Amount of 300s
         /// </summary>
-        [JsonProperty("count300")] public float C300 { get; set; }
+        [JsonProperty("count300")] public double C300 { get; set; }
 
         /// <summary>
         /// Amount of katu hits
         /// </summary>
-        [JsonProperty("countkatu")] public float CKatu { get; set; }
+        [JsonProperty("countkatu")] public double CKatu { get; set; }
 
         /// <summary>
         /// Amount of geki hits
         /// </summary>
-        [JsonProperty("countgeki")] public float CGeki { get; set; }
+        [JsonProperty("countgeki")] public double CGeki { get; set; }
 
         /// <summary>
         /// Amount of misses
         /// </summary>
-        [JsonProperty("countmiss")] public float CMiss { get; set; }
+        [JsonProperty("countmiss")] public double CMiss { get; set; }
 
         /// <summary>
         /// Calculated accuracy of this play
         /// </summary>
-        [JsonIgnore] public float Accuracy => OsuApi.CalculateAccuracy(Mode, CMiss, C50, C100, C300, CKatu, CGeki);
+        [JsonIgnore] public double Accuracy => OsuApi.CalculateAccuracy(Mode, CMiss, C50, C100, C300, CKatu, CGeki);
 
         /// <summary>
         /// Beatmap on which this play was made

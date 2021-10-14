@@ -9,40 +9,40 @@ namespace OsuApiHelper
     /// </summary>
     public class MapStats
     {
-        private const float OD_0_MS = 79.5f;
-        private const float OD_10_MS = 19.5f;
-        private const float AR_0_MS = 1800f;
-        private const float AR_5_MS = 1200f;
-        private const float AR_10_MS = 450f;
-        private const float OD_MS_STEP = 6f;
-        private const float AR_MS_STEP1 = 120f;
-        private const float AR_MS_STEP2 = 150f;
+        private const double OD_0_MS = 79.5;
+        private const double OD_10_MS = 19.5;
+        private const double AR_0_MS = 1800;
+        private const double AR_5_MS = 1200;
+        private const double AR_10_MS = 450;
+        private const double OD_MS_STEP = 6;
+        private const double AR_MS_STEP1 = 120;
+        private const double AR_MS_STEP2 = 150;
 
 
         /// <summary>
         /// Converted Beatmap Approach Rate
         /// </summary>
-        public float AR;
+        public double AR;
 
         /// <summary>
         /// Converted Beatmap Overall Difficulty
         /// </summary>
-        public float OD;
+        public double OD;
 
         /// <summary>
         /// Converted Beatmap Circle Size
         /// </summary>
-        public float CS;
+        public double CS;
 
         /// <summary>
         /// Converted Beatmap Health
         /// </summary>
-        public float HP;
+        public double HP;
 
         /// <summary>
         /// Converted Beatmap Speed
         /// </summary>
-        public float Speed;
+        public double Speed;
 
         /// <summary>
         /// Beatmap that owns this MapStats instance
@@ -75,39 +75,39 @@ namespace OsuApiHelper
             // HR / EZ multiplier
             if ((Mods & OsuMods.HardRock) != 0)
             {
-                CS *= 1.3f;
-                AR *= 1.4f;
-                OD *= 1.4f;
-                HP *= 1.4f;
+                CS *= 1.3;
+                AR *= 1.4;
+                OD *= 1.4;
+                HP *= 1.4;
             }else if ((Mods & OsuMods.Easy) != 0)
             {
-                CS *= 0.5f;
-                AR *= 0.5f;
-                OD *= 0.5f;
-                HP *= 0.5f;
+                CS *= 0.5;
+                AR *= 0.5;
+                OD *= 0.5;
+                HP *= 0.5;
             }
 
-            float ODMS = OD_0_MS - Mathf.Ceil(OD_MS_STEP * OD);
-            float ARMS = AR < 5 ? (AR_0_MS - AR_MS_STEP1 * AR) : (AR_5_MS - AR_MS_STEP2 * (AR - 5f));
+            double ODMS = OD_0_MS - System.Math.Ceiling(OD_MS_STEP * OD);
+            double ARMS = AR < 5 ? (AR_0_MS - AR_MS_STEP1 * AR) : (AR_5_MS - AR_MS_STEP2 * (AR - 5));
 
-            ODMS = Mathf.Min(OD_0_MS, Mathf.Max(OD_10_MS, ODMS));
-            ARMS = Mathf.Min(AR_0_MS, Mathf.Max(AR_10_MS, ARMS));
+            ODMS = System.Math.Min(OD_0_MS, System.Math.Max(OD_10_MS, ODMS));
+            ARMS = System.Math.Min(AR_0_MS, System.Math.Max(AR_10_MS, ARMS));
 
-            Speed = 1f;
+            Speed = 1;
             if ((Mods & OsuMods.DoubleTime) != 0)
-                Speed *= 1.5f;
+                Speed *= 1.5;
             else if ((Mods & OsuMods.HalfTime) != 0)
-                Speed *= 0.75f;
+                Speed *= 0.75;
 
-            float invSpeed = 1 / Speed;
+            double invSpeed = 1 / Speed;
 
             ODMS *= invSpeed;
             ARMS *= invSpeed;
 
             OD = (OD_0_MS - ODMS) / OD_MS_STEP;
-            AR = ARMS>AR_5_MS ? ((AR_0_MS - ARMS) / AR_MS_STEP1) : (5.0f + (AR_5_MS - ARMS) / AR_MS_STEP2);
+            AR = ARMS>AR_5_MS ? ((AR_0_MS - ARMS) / AR_MS_STEP1) : (5.0 + (AR_5_MS - ARMS) / AR_MS_STEP2);
 
-            CS = Mathf.Max(0.0f, Mathf.Min(10.0f, CS));
+            CS = System.Math.Max(0.0, System.Math.Min(10.0, CS));
         }
     }
 }

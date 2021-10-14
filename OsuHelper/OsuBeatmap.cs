@@ -63,47 +63,47 @@ namespace OsuApiHelper
         /// <summary>
         /// Aim star rating
         /// </summary>
-        [JsonProperty("diff_aim")] public float? StarratingAim { get; set; } = 0;
+        [JsonProperty("diff_aim")] public double? StarratingAim { get; set; } = 0;
 
         /// <summary>
         /// Speed star rating
         /// </summary>
-        [JsonProperty("diff_speed")] public float? StarratingSpeed { get; set; } = 0;
+        [JsonProperty("diff_speed")] public double? StarratingSpeed { get; set; } = 0;
         
         /// <summary>
         /// Beatmap star rating
         /// </summary>
         [JsonProperty("difficultyrating")]
-        public float? Starrating { get; set; }
+        public double? Starrating { get; set; }
 
         /// <summary>
         /// Highest combo achievable
         /// </summary>
-        [JsonProperty("max_combo")] public float? MaxCombo { get; set; } = 0;
+        [JsonProperty("max_combo")] public double? MaxCombo { get; set; } = 0;
         
         /// <summary>
         /// Base circle size (CS)
         /// </summary>
         [JsonProperty("diff_size")]
-        public float? CircleSize { get; set; }
+        public double? CircleSize { get; set; }
 
         /// <summary>
         /// Base overall difficulty (OD)
         /// </summary>
         [JsonProperty("diff_overall")]
-        public float? OverallDifficulty { get; set; }
+        public double? OverallDifficulty { get; set; }
 
         /// <summary>
         /// Base approach rate (AR)
         /// </summary>
         [JsonProperty("diff_approach")]
-        public float? ApproachRate { get; set; }
+        public double? ApproachRate { get; set; }
 
         /// <summary>
         /// Base health (HP)
         /// </summary>
         [JsonProperty("diff_drain")]
-        public float? Drain { get; set; }
+        public double? Drain { get; set; }
         
         /// <summary>
         /// User who made this beatmap
@@ -121,52 +121,52 @@ namespace OsuApiHelper
         /// Amount of circles in the map
         /// </summary>
         [JsonProperty("count_normal")]
-        public float? CircleCount { get; set; }
+        public double? CircleCount { get; set; }
 
         /// <summary>
         /// Amount of sliders in the map
         /// </summary>
         [JsonProperty("count_slider")]
-        public float? SliderCount { get; set; }
+        public double? SliderCount { get; set; }
 
         /// <summary>
         /// Amount of spinners in the map
         /// </summary>
         [JsonProperty("count_spinner")]
-        public float? SpinnerCount { get; set; }
+        public double? SpinnerCount { get; set; }
 
         /// <summary>
         /// Song length in seconds
         /// </summary>
         [JsonProperty("total_length")]
-        public float? MapLength { get; set; }
+        public double? MapLength { get; set; }
 
         /// <summary>
         /// Converted song length in seconds
         /// </summary>
-        public float GetLength()
+        public double GetLength()
         {
-            return (((Mods & OsuMods.DoubleTime) != 0 || (Mods & OsuMods.Nightcore) != 0))?MapLength??0*1.5f:MapLength??0;
+            return (((Mods & OsuMods.DoubleTime) != 0 || (Mods & OsuMods.Nightcore) != 0))?MapLength??0*1.5:MapLength??0;
         }
 
         /// <summary>
         /// Length of playable map in seconds
         /// </summary>
         [JsonProperty("hit_length")]
-        public float MapDrainLength { get; set; }
+        public double MapDrainLength { get; set; }
 
         /// <summary>
         /// Converted length of playable map in seconds
         /// </summary>
-        public float GetDrainLength()
+        public double GetDrainLength()
         {
-            return (((Mods & OsuMods.DoubleTime) != 0 || (Mods & OsuMods.Nightcore) != 0))?MapDrainLength*1.5f:MapDrainLength;
+            return (((Mods & OsuMods.DoubleTime) != 0 || (Mods & OsuMods.Nightcore) != 0))?MapDrainLength*1.5:MapDrainLength;
         }
 
         /// <summary>
         /// Total amount of hit objects in the map
         /// </summary>
-        public float ObjectCount => CircleCount??0 + SliderCount??0 + SpinnerCount??0;
+        public double ObjectCount => CircleCount??0 + SliderCount??0 + SpinnerCount??0;
 
         /// <summary>
         /// Difficulty data for conversions and calculations

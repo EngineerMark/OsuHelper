@@ -134,9 +134,9 @@ namespace OsuApiHelper
         }
 
         ///Defines the limit of difficulty values based on the mods used
-        public static float CalculateDifficultyLimit(OsuMods mods)
+        public static double CalculateDifficultyLimit(OsuMods mods)
         {
-            float limit = 10;
+            double limit = 10;
 
             if ((mods & OsuMods.HardRock) != 0 && ((mods & OsuMods.DoubleTime) != 0 || (mods & OsuMods.Nightcore) != 0))
                 limit = 11;
@@ -144,10 +144,10 @@ namespace OsuApiHelper
         }
 
         ///Applies mods to the difficulty values
-        public static float CalculateDifficulty(OsuMods mods, float baseValue)
+        public static double CalculateDifficulty(OsuMods mods, double baseValue)
         {
-            float value = baseValue;
-            float limit = CalculateDifficultyLimit(mods);
+            double value = baseValue;
+            double limit = CalculateDifficultyLimit(mods);
             
             if ((mods & OsuMods.HardRock) != 0)
                 value *= 1.4f;
@@ -155,26 +155,26 @@ namespace OsuApiHelper
             if ((mods & OsuMods.Easy) != 0)
                 value *= 0.5f;
 
-            return Mathf.Max(Mathf.Min(value, limit), 0);
+            return System.Math.Max(System.Math.Min(value, limit), 0);
         }
 
         ///Calculate accuracy based on given values and gamemode
-        public static float CalculateAccuracy(OsuMode mode, float cMiss, float c50, float c100, float c300,
-            float cKatu = 0f, float cGeki = 0f)
+        public static double CalculateAccuracy(OsuMode mode, double cMiss, double c50, double c100, double c300,
+            double cKatu = 0f, double cGeki = 0f)
         {
             switch (mode)
             {
                 case OsuMode.Standard:
-                    return (c50 * 50f + c100 * 100f + c300 * 300f) / ((c50 + c100 + c300 + cMiss) * 300) * 100;
+                    return (c50 * 50 + c100 * 100f + c300 * 300f) / ((c50 + c100 + c300 + cMiss) * 300) * 100;
                 case OsuMode.Mania:
                     return ((c50 * 50 + c100 * 100 + cKatu * 200 + c300 * 300 + cGeki * 300) /
                             ((cMiss + c50 + c100 + cKatu + c300 + cGeki) * 300)) * 100;
                 case OsuMode.Catch:
                     return (((c50 + c100 + c300) / (cMiss + c50 + c100 + c300 + cKatu)) * 100);
                 case OsuMode.Taiko:
-                    return (((c100 * 0.5f + c300 * 1) * 300) / ((cMiss + c100 + c300) * 300)) * 100;
+                    return (((c100 * 0.5 + c300 * 1) * 300) / ((cMiss + c100 + c300) * 300)) * 100;
                 default:
-                    return (c50 * 50f + c100 * 100f + c300 * 300f) / ((c50 + c100 + c300 + cMiss) * 300) * 100;
+                    return (c50 * 50 + c100 * 100 + c300 * 300) / ((c50 + c100 + c300 + cMiss) * 300) * 100;
             }
         }
     }
