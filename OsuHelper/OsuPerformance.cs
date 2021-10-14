@@ -50,7 +50,7 @@ namespace OsuApiHelper
         {
             Beatmap = beatmap;
             Play = play;
-            
+
             CalculateCurrentPerformance();
         }
 
