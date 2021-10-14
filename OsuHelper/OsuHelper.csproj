@@ -9,12 +9,12 @@
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <PackageId>Amayakase.OsuHelper</PackageId>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
-    <Version>1.0.8</Version>
+    <Version>1.0.9</Version>
     <RepositoryUrl>https://github.com/EngineerMark/OsuHelper</RepositoryUrl>
-    <PackageReleaseNotes>Added hit counts to OsuUser</PackageReleaseNotes>
+    <PackageReleaseNotes>AR pp adjustments</PackageReleaseNotes>
     <PackageTags>package update</PackageTags>
-    <AssemblyVersion>1.0.8.0</AssemblyVersion>
-    <FileVersion>1.0.8.0</FileVersion>
+    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <FileVersion>1.0.9.0</FileVersion>
   </PropertyGroup>
 
   <ItemGroup>
