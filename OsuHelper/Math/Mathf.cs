@@ -19,6 +19,8 @@ namespace OsuApiHelper.Math
 
         public static float Log10(float a) => (float) System.Math.Log10(a);
 
+        public static float Exp(float a) => (float)System.Math.Exp(a);
+
         public static string FormatNumber(this float value) => ((double) value).FormatNumber();
         
         public enum TemperatureType

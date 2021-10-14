@@ -295,12 +295,15 @@ namespace OsuApiHelper
 
             float BonusApproachRateFactor = 0.0f;
             if (Beatmap.MapStats.AR > 10.33f)
-                BonusApproachRateFactor += 0.4f * (Beatmap.MapStats.AR - 10.33f);
+                BonusApproachRateFactor = (Beatmap.MapStats.AR - 10.33f);
             else if (Beatmap.MapStats.AR < 8.0f)
-                BonusApproachRateFactor += 0.01f * (8.0f - Beatmap.MapStats.AR);
-            float BonusApproachRate =
-                1.0f + Mathf.Min(BonusApproachRateFactor, BonusApproachRateFactor * (cTotalHits / 1000.0f));
-            
+                BonusApproachRateFactor = 0.025f * (8.0f - Beatmap.MapStats.AR);
+            //float BonusApproachRate =
+            //    1.0f + Mathf.Min(BonusApproachRateFactor, BonusApproachRateFactor * (cTotalHits / 1000.0f));
+            float BonusApproachRateHitFactor = 1.0f / (1.0f+Mathf.Exp(-(0.007f*(cTotalHits-400))));
+            float BonusApproachRate = 1.0f+(0.03f + 0.37f * BonusApproachRateHitFactor) * BonusApproachRateFactor;
+
+
             float BonusHidden = ((Play.Mods&OsuMods.Hidden)!=0)?1.0f+0.04f*(12.0f-Beatmap.MapStats.AR):1.0f;
             
             float BonusFlashlight = ((Play.Mods&OsuMods.Flashlight)!=0)
@@ -316,7 +319,8 @@ namespace OsuApiHelper
             AimValue *= BonusMiss;
             AimValue *= BonusCombo;
             AimValue *= BonusHidden;
-            AimValue *= Mathf.Max(BonusApproachRate, BonusFlashlight); // since july 2021, ar/fl bonuses are mutually exclusive
+            AimValue *= BonusApproachRate;
+            AimValue *= BonusFlashlight;
 
             AimValue *= (0.5f + Accuracy / 2.0f);
 
@@ -329,13 +333,7 @@ namespace OsuApiHelper
             SpeedValue *= BonusLength;
             SpeedValue *= BonusMiss;
             SpeedValue *= BonusCombo;
-            //SpeedValue *= BonusApproachRate;
-            float BonusSpeedApproachRateFactor = 0;
-            if (Beatmap.MapStats.AR > 10.33f)
-                BonusSpeedApproachRateFactor += 0.4f * (Beatmap.MapStats.AR - 10.33f);
-            SpeedValue *= 1.0f + Mathf.Min(BonusSpeedApproachRateFactor,
-                BonusSpeedApproachRateFactor * (cTotalHits / 1000f));
-            
+            SpeedValue *= BonusApproachRate;
             SpeedValue *= BonusHidden;
 
             SpeedValue *= (0.95f + Mathf.Pow(Beatmap.MapStats.OD, 2f) / 750f) *
