@@ -315,9 +315,8 @@ namespace OsuApiHelper
             AimValue *= BonusLength;
             AimValue *= BonusMiss;
             AimValue *= BonusCombo;
-            AimValue *= BonusApproachRate;
             AimValue *= BonusHidden;
-            AimValue *= BonusFlashlight;
+            AimValue *= Mathf.Max(BonusApproachRate, BonusFlashlight); // since july 2021, ar/fl bonuses are mutually exclusive
 
             AimValue *= (0.5f + Accuracy / 2.0f);
 
