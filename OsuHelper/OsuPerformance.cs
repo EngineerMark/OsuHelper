@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Runtime.Serialization;
+using Newtonsoft.Json;
 using OsuApiHelper.Math;
 
 namespace OsuApiHelper
@@ -11,6 +13,8 @@ namespace OsuApiHelper
         /// <summary>
         /// Connected beatmap
         /// </summary>
+        [JsonIgnore] // beatmap references to this already, noone has a PP object without beatmap object first, so its pointless
+        [IgnoreDataMember] // its fine to exist, but serializing would cause self referencing loop so we ignore it for that
         public OsuBeatmap Beatmap;
 
         /// <summary>
