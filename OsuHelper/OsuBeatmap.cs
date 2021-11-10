@@ -80,6 +80,14 @@ namespace OsuApiHelper
         /// Highest combo achievable
         /// </summary>
         [JsonProperty("max_combo")] public double? MaxCombo { get; set; } = 0;
+
+        /// <summary>
+        /// Incase of Mania, it returns 1500
+        /// </summary>
+        public double TryMaxCombo { get{
+                return MaxCombo ?? 1500;
+            } 
+        }
         
         /// <summary>
         /// Base circle size (CS)
@@ -166,7 +174,7 @@ namespace OsuApiHelper
         /// <summary>
         /// Total amount of hit objects in the map
         /// </summary>
-        public double ObjectCount => CircleCount??0 + SliderCount??0 + SpinnerCount??0;
+        public double ObjectCount => (CircleCount??0) + (SliderCount??0) + (SpinnerCount??0);
 
         /// <summary>
         /// Difficulty data for conversions and calculations

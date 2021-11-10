@@ -92,12 +92,12 @@ namespace OsuApiHelper
         [JsonProperty("count300")] public double C300 { get; set; }
 
         /// <summary>
-        /// Amount of katu hits
+        /// Amount of katu hits (200 for Mania)
         /// </summary>
         [JsonProperty("countkatu")] public double CKatu { get; set; }
 
         /// <summary>
-        /// Amount of geki hits
+        /// Amount of geki hits (MAX for Mania)
         /// </summary>
         [JsonProperty("countgeki")] public double CGeki { get; set; }
 
