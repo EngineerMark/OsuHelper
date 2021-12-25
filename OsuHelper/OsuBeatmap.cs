@@ -149,7 +149,7 @@ namespace OsuApiHelper
         [JsonProperty("total_length")]
         public double? MapLength { get; set; }
 
-        /// <summary>
+        /// <summary> 
         /// Converted song length in seconds
         /// </summary>
         public double GetLength()

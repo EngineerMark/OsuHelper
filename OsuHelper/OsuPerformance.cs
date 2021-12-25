@@ -50,12 +50,13 @@ namespace OsuApiHelper
         /// <summary>
         /// Create Performance object for a score
         /// </summary>
-        public OsuPerformance(OsuPlay play, OsuBeatmap beatmap)
+        public OsuPerformance(OsuPlay play, OsuBeatmap beatmap, bool autoCalculate = true)
         {
             Beatmap = beatmap;
             Play = play;
 
-            CalculateCurrentPerformance();
+            if(autoCalculate)
+                CalculateCurrentPerformance();
         }
 
         /// <summary>
@@ -283,17 +284,13 @@ namespace OsuApiHelper
 
             double Accuracy = OsuApi.CalculateAccuracy(Play.Mode, cMiss, c50, c100, c300, cKatu, cGeki) * 0.01;
 
+            double totalHits = Play.C300 + Play.C100 + Play.C50 + Play.CMiss;
+
             #region Standard MUL
             double cTotalHits = c50 + c100 + c300 + cMiss;
 
-            double BonusLength = 0.95d + 0.4d * System.Math.Min(1.0d, cTotalHits / 2000.0d) +
-                                (cTotalHits > 2000d ? System.Math.Log10(cTotalHits / 2000.0d) * 0.5d : 0.0d);
-
-            double BonusMiss = (cMiss > 0d ? 0.97d * System.Math.Pow(1.0d - System.Math.Pow(cMiss / cTotalHits, 0.775d), cMiss) : 1.0d);
-
-            double BonusCombo = (Beatmap.MaxCombo > 0d
-                ? System.Math.Min((System.Math.Pow(combo, 0.8d) / System.Math.Pow((double)Beatmap.MaxCombo, 0.8d)), 1.0d)
-                : 1.0d);
+            double BonusLength = 0.95 + 0.4 * System.Math.Min(1.0, cTotalHits / 2000.0) +
+                                (cTotalHits > 2000.0 ? System.Math.Log10(cTotalHits / 2000.0) * 0.5 : 0.0);
 
             double BonusApproachRateAim = 0.0d;
             double BonusApproachRateSpeed = 0.0d;
@@ -317,35 +314,72 @@ namespace OsuApiHelper
 
             #endregion
 
+            #region Standard EFFMISS
+
+            double comboBasesMissCount = 0.0;
+            double beatmapMaxCombo = Beatmap.TryMaxCombo;
+            if(Beatmap.SliderCount>0){
+                double fullComboThreshold = beatmapMaxCombo - 0.1 * (double)Beatmap.SliderCount;
+                if (Play.MaxCombo < fullComboThreshold)
+                    comboBasesMissCount = fullComboThreshold / System.Math.Max(1, Play.MaxCombo);
+            }
+
+            comboBasesMissCount = System.Math.Min(comboBasesMissCount, (double)totalHits);
+            double effectiveMissCount = System.Math.Max(Play.CMiss, System.Math.Floor(comboBasesMissCount));
+
+            #endregion
+
             #region Standard AIM
             double AimValue = GetPPBase((double)Beatmap.StarratingAim);
 
             //AimValue *= BonusLength;
             AimValue *= BonusLength;
-            AimValue *= BonusMiss;
-            AimValue *= BonusCombo;
+
+            if(effectiveMissCount>0){
+                AimValue *= 0.97f * System.Math.Pow(1.0-System.Math.Pow(effectiveMissCount/totalHits, 0.775), effectiveMissCount);
+            }
+            AimValue *= GetComboScalingFactor(Beatmap);
+
+            //AimValue *= BonusMiss;
+            //AimValue *= BonusCombo;
             AimValue *= BonusHidden;
+
+            double estimateDifficultSliders = (double)Beatmap.SliderCount * 0.15;
+
+            if (Beatmap.SliderCount > 0)
+            {
+                double estimateSliderEndsDropped = System.Math.Min(System.Math.Max(System.Math.Min((double)(Play.C100+Play.C50+Play.CMiss), beatmapMaxCombo-Play.MaxCombo), 0.0), estimateDifficultSliders);
+                double sliderFactor = 18; // TEMP, REQUIRES FIX!!!!!
+                double sliderNerfFactor = (1.0 - sliderFactor) * System.Math.Pow(1.0 - estimateSliderEndsDropped / estimateDifficultSliders, 3.0) + sliderFactor;
+                AimValue *= sliderNerfFactor;
+            }
+
             AimValue *= 1.0d + BonusApproachRateAim * BonusLength;
             AimValue *= BonusFlashlight;
 
             //AimValue *= (0.5d + Accuracy / 2.0d);
             AimValue *= Accuracy;
 
-            AimValue *= (0.98d + (System.Math.Pow(Beatmap.MapStats.OD, 2d) / 2500d));
+            AimValue *= (0.98 + (System.Math.Pow(Beatmap.MapStats.OD, 2.0) / 2500.0));
             #endregion
 
             #region Standard SPEED
             double SpeedValue = GetPPBase((double)Beatmap.StarratingSpeed);
 
             SpeedValue *= BonusLength;
-            SpeedValue *= BonusMiss;
-            SpeedValue *= BonusCombo;
+            //SpeedValue *= BonusMiss;
+            if (effectiveMissCount > 0)
+            {
+                SpeedValue *= 0.97f * System.Math.Pow(1.0 - System.Math.Pow(effectiveMissCount / totalHits, 0.775), System.Math.Pow(effectiveMissCount, 0.875));
+            }
+            SpeedValue *= GetComboScalingFactor(Beatmap);
+            //SpeedValue *= BonusCombo;
             SpeedValue *= 1.0d + BonusApproachRateSpeed * BonusLength;
             SpeedValue *= BonusHidden;
 
-            SpeedValue *= (0.95d + System.Math.Pow(Beatmap.MapStats.OD, 2d) / 750d) *
-                          System.Math.Pow(Accuracy, (14.5d - System.Math.Max(Beatmap.MapStats.OD, 8.0d)) / 2d);
-            SpeedValue *= System.Math.Pow(0.98d, (c50 < cTotalHits / 500) ? (0.0) : (c50 - cTotalHits / 500d));
+            SpeedValue *= (0.95 + System.Math.Pow(Beatmap.MapStats.OD, 2.0) / 750.0) *
+                          System.Math.Pow(Accuracy, (14.5 - System.Math.Max(Beatmap.MapStats.OD, 8.0)) / 2.0);
+            SpeedValue *= System.Math.Pow(0.98d, (c50 < cTotalHits / 500.0) ? (0.0) : (c50 - cTotalHits / 500.0));
             #endregion
 
             #region Standard ACC
@@ -372,7 +406,7 @@ namespace OsuApiHelper
             double TotalMultiplier = 1.12d;
 
             if ((Play.Mods & OsuMods.NoFail) != 0)
-                TotalMultiplier *= System.Math.Max(0.9d, 1.0d - 0.02d * cMiss);
+                TotalMultiplier *= System.Math.Max(0.9d, 1.0d - 0.02d * effectiveMissCount);
 
             if ((Play.Mods & OsuMods.SpunOut) != 0)
                 TotalMultiplier *= 1.0d - System.Math.Pow((double)Beatmap.SpinnerCount / cTotalHits, 0.85d);
@@ -385,6 +419,14 @@ namespace OsuApiHelper
             ) * TotalMultiplier;
 
             return TotalValue;
+        }
+
+        private double GetComboScalingFactor(OsuBeatmap map){
+            double maxCombo = map.TryMaxCombo;
+            if(maxCombo>0){
+                return System.Math.Min(System.Math.Pow(Play.MaxCombo, 0.8)/System.Math.Pow(maxCombo, 0.8), 1.0);
+            }
+            return 1.0;
         }
 
 
